@@ -1,0 +1,12 @@
+.root{
+-fx-background-color:"#E1E1E1";
+}
+
+#btnTheme{
+-fx-background-size: 45px;
+-fx-background-color: "#E1E1E1";
+-fx-background-repeat: no-repeat;
+-fx-background-position: 85%;
+-fx-border-color: "#E1E1E1";
+-fx-padding: 0;
+}
