@@ -42,6 +42,8 @@ public class MainController {
     // ? Turnos
     @FXML
     AnchorPane bordeTurno;
+    @FXML
+    AnchorPane bordeBlanco;
     boolean turno; // ? True - Jugador 1 / False - Jugador 2
 
     int modoJuego = 1; // ? 1-Player VS Player  / 2- Player VS PC / 3- PC VS PC
@@ -97,6 +99,7 @@ public class MainController {
     public void iniciarJuego(){
         addAllBtn();
         btnEnable();
+        bordeBlanco.setBackground(new Background(new BackgroundFill(Color.web("#ffffff"), CornerRadii.EMPTY, Insets.EMPTY))); // ? Inicio fondo blanco
         switch (modoJuego){
             case 1:
                 playerVSplayer();
@@ -118,43 +121,48 @@ public class MainController {
 
     // * Métodos botones
     public void pulseBtn0(){
-        btnPulsado(0,0);
+        btnPulsado(0,0,0);
         btn0.setDisable(true);
     }
     public void pulseBtn1(){
-        btnPulsado(0,1);
+        btnPulsado(0,1,1);
         btn1.setDisable(true);
     }
     public void pulseBtn2(){
-        btnPulsado(0,2);
+        btnPulsado(0,2,2);
         btn2.setDisable(true);
     }
     public void pulseBtn3(){
-        btnPulsado(1,0);
+        btnPulsado(1,0,3);
         btn3.setDisable(true);
     }
     public void pulseBtn4(){
-        btnPulsado(1,1);
+        btnPulsado(1,1,4);
         btn4.setDisable(true);
     }
     public void pulseBtn5(){
-        btnPulsado(1,2);
+        btnPulsado(1,2,5);
         btn5.setDisable(true);
     }
     public void pulseBtn6(){
-        btnPulsado(2,0);
+        btnPulsado(2,0,6);
         btn6.setDisable(true);
     }
     public void pulseBtn7(){
-        btnPulsado(2,1);
+        btnPulsado(2,1,7);
         btn7.setDisable(true);
     }
     public void pulseBtn8(){
-        btnPulsado(2,2);
+        btnPulsado(2,2,8);
         btn8.setDisable(true);
     }
-    public void btnPulsado(int nFila, int nCol){
-        if (turno){tablero[nFila][nCol] = 1;} else if (!turno){tablero[nFila][nCol] = 2;} // ? Cambia el número del tablero según el jugador
+    public void btnPulsado(int nFila, int nCol, int nBtn){
+        if (turno){
+            tablero[nFila][nCol] = 1;
+        } else if (!turno){
+            tablero[nFila][nCol] = 2;
+        }
+        cambiarBotonJugador(nBtn,turno);
         mostrarTableroLog();
         if (comprobarGanador() == 0){
             cambiarTurno();
@@ -168,7 +176,7 @@ public class MainController {
         if (comprobarGanador() == 0 && nTurno == 9){
             cambiarColorManual(0);
             System.out.println("EMPATE");
-        }
+        } // ? Comprobador de empate
     }
     private void addAllBtn(){
         listBtn.add(btn0);
@@ -191,6 +199,11 @@ public class MainController {
             tmpBtn.setDisable(true);
         }
     } // ? Deshabilita todos los botones
+    public void btnResetColor(){
+        for(Button tmpBtn : listBtn){
+            tmpBtn.setBackground(new Background(new BackgroundFill(Color.web("#ffffff"), CornerRadii.EMPTY, Insets.EMPTY)));
+        }
+    } // ? Deshabilita todos los botones
 
 
     private void cambiarTurno(){
@@ -211,12 +224,80 @@ public class MainController {
             bordeTurno.setBackground(new Background(new BackgroundFill(Color.web("#a3a3a3"), CornerRadii.EMPTY, Insets.EMPTY)));
         }
     }
+    private void cambiarBotonJugador(int nBtn, boolean turno){
+        switch (nBtn){
+            case 0:
+                if (turno){
+                    btn0.setBackground(new Background(new BackgroundFill(Color.web(colorJugador1), CornerRadii.EMPTY, Insets.EMPTY)));
+                } else {
+                    btn0.setBackground(new Background(new BackgroundFill(Color.web(colorJugador2), CornerRadii.EMPTY, Insets.EMPTY)));
+                }
+                break;
+            case 1:
+                if (turno){
+                    btn1.setBackground(new Background(new BackgroundFill(Color.web(colorJugador1), CornerRadii.EMPTY, Insets.EMPTY)));
+                } else {
+                    btn1.setBackground(new Background(new BackgroundFill(Color.web(colorJugador2), CornerRadii.EMPTY, Insets.EMPTY)));
+                }
+                break;
+            case 2:
+                if (turno){
+                    btn2.setBackground(new Background(new BackgroundFill(Color.web(colorJugador1), CornerRadii.EMPTY, Insets.EMPTY)));
+                } else {
+                    btn2.setBackground(new Background(new BackgroundFill(Color.web(colorJugador2), CornerRadii.EMPTY, Insets.EMPTY)));
+                }
+                break;
+            case 3:
+                if (turno){
+                    btn3.setBackground(new Background(new BackgroundFill(Color.web(colorJugador1), CornerRadii.EMPTY, Insets.EMPTY)));
+                } else {
+                    btn3.setBackground(new Background(new BackgroundFill(Color.web(colorJugador2), CornerRadii.EMPTY, Insets.EMPTY)));
+                }
+                break;
+            case 4:
+                if (turno){
+                    btn4.setBackground(new Background(new BackgroundFill(Color.web(colorJugador1), CornerRadii.EMPTY, Insets.EMPTY)));
+                } else {
+                    btn4.setBackground(new Background(new BackgroundFill(Color.web(colorJugador2), CornerRadii.EMPTY, Insets.EMPTY)));
+                }
+                break;
+            case 5:
+                if (turno){
+                    btn5.setBackground(new Background(new BackgroundFill(Color.web(colorJugador1), CornerRadii.EMPTY, Insets.EMPTY)));
+                } else {
+                    btn5.setBackground(new Background(new BackgroundFill(Color.web(colorJugador2), CornerRadii.EMPTY, Insets.EMPTY)));
+                }
+                break;
+            case 6:
+                if (turno){
+                    btn6.setBackground(new Background(new BackgroundFill(Color.web(colorJugador1), CornerRadii.EMPTY, Insets.EMPTY)));
+                } else {
+                    btn6.setBackground(new Background(new BackgroundFill(Color.web(colorJugador2), CornerRadii.EMPTY, Insets.EMPTY)));
+                }
+                break;
+            case 7:
+                if (turno){
+                    btn7.setBackground(new Background(new BackgroundFill(Color.web(colorJugador1), CornerRadii.EMPTY, Insets.EMPTY)));
+                } else {
+                    btn7.setBackground(new Background(new BackgroundFill(Color.web(colorJugador2), CornerRadii.EMPTY, Insets.EMPTY)));
+                }
+                break;
+            case 8:
+                if (turno){
+                    btn8.setBackground(new Background(new BackgroundFill(Color.web(colorJugador1), CornerRadii.EMPTY, Insets.EMPTY)));
+                } else {
+                    btn8.setBackground(new Background(new BackgroundFill(Color.web(colorJugador2), CornerRadii.EMPTY, Insets.EMPTY)));
+                }
+                break;
+        }
+    }
 
     public void restartJuego(){
         tablero = new int[3][3]; // ? Reinicia el valor del tablero a 0
         btnEnable();
         iniciarJuego();
         nTurno = 0;
+        btnResetColor();
     }
 
     private int comprobarGanador() {
