@@ -73,6 +73,8 @@ public class MainController {
     // ? Variables para los jugadores
     private int jugador1 = 1;
     private int jugador2 = 2;
+    private String colorJugador1 = "#3877ff";
+    private String colorJugador2 = "#ff3838";
     private int jugadorActual = jugador1; // ? Variable para el jugador actual
     private int nTurno = 1; // ? Variable para el número de turno
 
@@ -110,7 +112,7 @@ public class MainController {
     private void playerVSplayer(){
         boolean ganador = false; // ? Creamos variable de ganador
         turno = true; // ? Ponemos el turno al jugador 1
-        bordeTurno.setBackground(new Background(new BackgroundFill(Color.web("#3877ff"), CornerRadii.EMPTY, Insets.EMPTY)));
+        cambiarColorManual(1);
     }
 
 
@@ -154,7 +156,19 @@ public class MainController {
     public void btnPulsado(int nFila, int nCol){
         if (turno){tablero[nFila][nCol] = 1;} else if (!turno){tablero[nFila][nCol] = 2;} // ? Cambia el número del tablero según el jugador
         mostrarTableroLog();
-        cambiarTurno();
+        if (comprobarGanador() == 0){
+            cambiarTurno();
+            nTurno++;
+        } else if(comprobarGanador() == 1 || comprobarGanador() == 2 && nTurno!=9){
+            started = false; // ? Acabamos la partida
+            System.out.println("GANADOR - " + comprobarGanador());
+            cambiarColorManual(comprobarGanador());
+            btnDisable(); // ? Deshabilitamos los botones
+        }
+        if (comprobarGanador() == 0 && nTurno == 9){
+            cambiarColorManual(0);
+            System.out.println("EMPATE");
+        }
     }
     private void addAllBtn(){
         listBtn.add(btn0);
@@ -181,26 +195,63 @@ public class MainController {
 
     private void cambiarTurno(){
         if (turno){
-            bordeTurno.setBackground(new Background(new BackgroundFill(Color.web("#ff3838"), CornerRadii.EMPTY, Insets.EMPTY)));
+            bordeTurno.setBackground(new Background(new BackgroundFill(Color.web(colorJugador2), CornerRadii.EMPTY, Insets.EMPTY)));
             turno = false;
         } else if (!turno) {
-            bordeTurno.setBackground(new Background(new BackgroundFill(Color.web("#3877ff"), CornerRadii.EMPTY, Insets.EMPTY)));
+            bordeTurno.setBackground(new Background(new BackgroundFill(Color.web(colorJugador1), CornerRadii.EMPTY, Insets.EMPTY)));
             turno = true;
         }
     } // ? Cambia los colores dependiendo del turno del jugador
+    private void cambiarColorManual(int nJugador){
+        if (nJugador == 1){
+            bordeTurno.setBackground(new Background(new BackgroundFill(Color.web(colorJugador1), CornerRadii.EMPTY, Insets.EMPTY)));
+        } else if (nJugador == 2) {
+            bordeTurno.setBackground(new Background(new BackgroundFill(Color.web(colorJugador2), CornerRadii.EMPTY, Insets.EMPTY)));
+        } else if (nJugador == 0) {
+            bordeTurno.setBackground(new Background(new BackgroundFill(Color.web("#a3a3a3"), CornerRadii.EMPTY, Insets.EMPTY)));
+        }
+    }
 
     public void restartJuego(){
         tablero = new int[3][3]; // ? Reinicia el valor del tablero a 0
         btnEnable();
         iniciarJuego();
+        nTurno = 0;
     }
 
-    // ! Temporal
+    private int comprobarGanador() {
+        // ? Revisamos las filas
+        for (int i = 0; i < 3; i++) {
+            if (tablero[i][0] == tablero[i][1] && tablero[i][1] == tablero[i][2]) {
+                return tablero[i][0];
+            }
+        }
+
+        // ? Revisamos las columnas
+        for (int j = 0; j < 3; j++) {
+            if (tablero[0][j] == tablero[1][j] && tablero[1][j] == tablero[2][j]) {
+                return tablero[0][j];
+            }
+        }
+
+        // ? Revisamos las diagonales
+        if (tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2]) {
+            return tablero[0][0];
+        }
+        if (tablero[0][2] == tablero[1][1] && tablero[1][1] == tablero[2][0]) {
+            return tablero[0][2];
+        }
+
+        // ? Si no se ha cumplido ninguna de las condiciones anteriores, no hay ganador
+        return 0;
+
+    } // ? Comprueba si hay ganador y si hay te dice cual es
+
     private void mostrarTableroLog(){
-        System.out.println("---- JUGADA  nº" + nTurno);
+        System.out.println("- JUGADA  nº" + nTurno + " -");
         System.out.println(tablero[0][0] + " - " + tablero[0][1] + " - " + tablero[0][2]);
         System.out.println(tablero[1][0] + " - " + tablero[1][1] + " - " + tablero[1][2]);
         System.out.println(tablero[2][0] + " - " + tablero[2][1] + " - " + tablero[2][2]);
-    }
+    } // ! Temporal
 
 }
