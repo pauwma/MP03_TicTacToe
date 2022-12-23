@@ -117,37 +117,41 @@ public class MainController {
     // * Métodos botones
     public void pulseBtn0(){
         btnPulsado(0);
+        btn0.setDisable(true);
     }
     public void pulseBtn1(){
         btnPulsado(1);
+        btn1.setDisable(true);
     }
     public void pulseBtn2(){
         btnPulsado(2);
+        btn2.setDisable(true);
     }
     public void pulseBtn3(){
         btnPulsado(3);
+        btn3.setDisable(true);
     }
     public void pulseBtn4(){
         btnPulsado(4);
+        btn4.setDisable(true);
     }
     public void pulseBtn5(){
         btnPulsado(5);
+        btn5.setDisable(true);
     }
     public void pulseBtn6(){
         btnPulsado(6);
+        btn6.setDisable(true);
     }
     public void pulseBtn7(){
         btnPulsado(7);
+        btn7.setDisable(true);
     }
     public void pulseBtn8(){
         btnPulsado(8);
+        btn8.setDisable(true);
     }
     public void btnPulsado(int nBtn){
-        if (turno){
-            System.out.println(jugador1);
-        }else{
-            System.out.println(jugador2);
-        }
         cambiarTurno();
     }
     private void addAllBtn(){
@@ -183,11 +187,12 @@ public class MainController {
         }
     } // ? Cambia los colores dependiendo del turno del jugador
 
-    private void restartJuego(){
+    public void restartJuego(){
         if (started){
-            System.out.println(tablero.toString());
             for (int tmpInt : tablero){tmpInt = 0;}
-        }
+        } // ? Reinicia el valor del tablero a 0
+        btnEnable();
+        iniciarJuego();
     }
 
 }
