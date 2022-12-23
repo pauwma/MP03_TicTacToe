@@ -69,7 +69,7 @@ public class MainController {
     List<Button> listBtn = new ArrayList<>(); // ? Lista de botones
 
     // ? Cosas del juego
-    private int[] tablero = new int[9]; // ? Matriz del tablero
+    private int[][] tablero = new int[3][3]; // ? Matriz del tablero
     // ? Variables para los jugadores
     private int jugador1 = 1;
     private int jugador2 = 2;
@@ -116,42 +116,44 @@ public class MainController {
 
     // * Métodos botones
     public void pulseBtn0(){
-        btnPulsado(0);
+        btnPulsado(0,0);
         btn0.setDisable(true);
     }
     public void pulseBtn1(){
-        btnPulsado(1);
+        btnPulsado(0,1);
         btn1.setDisable(true);
     }
     public void pulseBtn2(){
-        btnPulsado(2);
+        btnPulsado(0,2);
         btn2.setDisable(true);
     }
     public void pulseBtn3(){
-        btnPulsado(3);
+        btnPulsado(1,0);
         btn3.setDisable(true);
     }
     public void pulseBtn4(){
-        btnPulsado(4);
+        btnPulsado(1,1);
         btn4.setDisable(true);
     }
     public void pulseBtn5(){
-        btnPulsado(5);
+        btnPulsado(1,2);
         btn5.setDisable(true);
     }
     public void pulseBtn6(){
-        btnPulsado(6);
+        btnPulsado(2,0);
         btn6.setDisable(true);
     }
     public void pulseBtn7(){
-        btnPulsado(7);
+        btnPulsado(2,1);
         btn7.setDisable(true);
     }
     public void pulseBtn8(){
-        btnPulsado(8);
+        btnPulsado(2,2);
         btn8.setDisable(true);
     }
-    public void btnPulsado(int nBtn){
+    public void btnPulsado(int nFila, int nCol){
+        if (turno){tablero[nFila][nCol] = 1;} else if (!turno){tablero[nFila][nCol] = 2;} // ? Cambia el número del tablero según el jugador
+        mostrarTableroLog();
         cambiarTurno();
     }
     private void addAllBtn(){
@@ -188,11 +190,17 @@ public class MainController {
     } // ? Cambia los colores dependiendo del turno del jugador
 
     public void restartJuego(){
-        if (started){
-            for (int tmpInt : tablero){tmpInt = 0;}
-        } // ? Reinicia el valor del tablero a 0
+        tablero = new int[3][3]; // ? Reinicia el valor del tablero a 0
         btnEnable();
         iniciarJuego();
+    }
+
+    // ! Temporal
+    private void mostrarTableroLog(){
+        System.out.println("---- JUGADA  nº" + nTurno);
+        System.out.println(tablero[0][0] + " - " + tablero[0][1] + " - " + tablero[0][2]);
+        System.out.println(tablero[1][0] + " - " + tablero[1][1] + " - " + tablero[1][2]);
+        System.out.println(tablero[2][0] + " - " + tablero[2][1] + " - " + tablero[2][2]);
     }
 
 }
