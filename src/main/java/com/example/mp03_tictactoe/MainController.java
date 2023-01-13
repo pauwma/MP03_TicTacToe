@@ -2,8 +2,10 @@ package com.example.mp03_tictactoe;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -12,10 +14,12 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class MainController {
+public class MainController implements Initializable {
 
     // ? Temas CSS
     String whiteTheme = this.getClass().getResource("white_theme.css").toExternalForm();
@@ -70,6 +74,23 @@ public class MainController {
 
     List<Button> listBtn = new ArrayList<>(); // ? Lista de botones
 
+    @FXML
+    RadioButton btn_gamemode0;
+    @FXML
+    RadioButton btn_gamemode1;
+    @FXML
+    RadioButton btn_gamemode2;
+
+    public void gamemodeSelector(){
+        if (btn_gamemode0.isSelected()){
+            System.out.println("GAMEMODE 1");
+        } else if (btn_gamemode1.isSelected()){
+            System.out.println("GAMEMODE 2");
+        } else if (btn_gamemode2.isSelected()){
+            System.out.println("GAMEMODE 3");
+        }
+    }
+
     // ? Cosas del juego
     private int[][] tablero = new int[3][3]; // ? Matriz del tablero
     // ? Variables para los jugadores
@@ -86,7 +107,6 @@ public class MainController {
             btnTheme.getScene().getStylesheets().remove(darkTheme);
             btnTheme.getScene().getStylesheets().add(whiteTheme);
             btnTheme.setGraphic(darkView);
-            // btnTheme.setPadding(Insets.EMPTY);
             theme = false;
         } else {
             btnTheme.getScene().getStylesheets().remove(whiteTheme);
@@ -333,6 +353,12 @@ public class MainController {
         System.out.println(tablero[0][0] + " - " + tablero[0][1] + " - " + tablero[0][2]);
         System.out.println(tablero[1][0] + " - " + tablero[1][1] + " - " + tablero[1][2]);
         System.out.println(tablero[2][0] + " - " + tablero[2][1] + " - " + tablero[2][2]);
-    } // ! Temporal
+    } // ! Debug del tablero
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // ? Pone la imagen del botón de cambio de tema.
+        btnTheme.setGraphic(whiteView);
+        theme = true;
+    }
 }

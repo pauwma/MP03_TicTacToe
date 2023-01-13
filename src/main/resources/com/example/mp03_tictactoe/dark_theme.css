@@ -1,5 +1,6 @@
 .root{
 -fx-background-color:"#121212";
+-fx-text-fill:"#ffffff";
 }
 
 #btnTheme{
@@ -15,4 +16,18 @@
 -fx-border-style: solid;
  -fx-border-width: 1px;
  -fx-border-color: gray;
+}
+
+#btn_stop{
+-fx-background-color: linear-gradient(#ff5400, #be1d00);
+-fx-background-radius: 30;
+-fx-background-insets: 0;
+-fx-text-fill: white;
+}
+
+#btn_start{
+-fx-background-color: linear-gradient(#ff5400, #be1d00);
+-fx-background-radius: 30;
+-fx-background-insets: 0;
+-fx-text-fill: white;
 }

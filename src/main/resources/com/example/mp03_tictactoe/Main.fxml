@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 
@@ -29,5 +31,12 @@
       <Button fx:id="btnTheme" contentDisplay="CENTER" layoutX="700.0" layoutY="32.0" mnemonicParsing="false" onAction="#changeTheme" prefHeight="30.0" prefWidth="30.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
       <Button fx:id="btnStart" contentDisplay="CENTER" layoutX="658.0" layoutY="431.0" mnemonicParsing="false" onAction="#iniciarJuego" prefHeight="37.0" prefWidth="107.0" text="Start" />
       <Button fx:id="btnRestart" contentDisplay="CENTER" layoutX="508.0" layoutY="431.0" mnemonicParsing="false" onAction="#restartJuego" prefHeight="37.0" prefWidth="107.0" text="Restart" />
+      <RadioButton fx:id="btn_gamemode0" layoutX="606.0" layoutY="90.0" mnemonicParsing="false" onAction="#gamemodeSelector" selected="true" text="RadioButton">
+         <toggleGroup>
+            <ToggleGroup fx:id="gamemode" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="btn_gamemode1" layoutX="606.0" layoutY="120.0" mnemonicParsing="false" onAction="#gamemodeSelector" text="RadioButton" toggleGroup="$gamemode" />
+      <RadioButton fx:id="btn_gamemode2" layoutX="606.0" layoutY="150.0" mnemonicParsing="false" onAction="#gamemodeSelector" text="RadioButton" toggleGroup="$gamemode" />
    </children>
 </AnchorPane>
