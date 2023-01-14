@@ -39,6 +39,8 @@ public class Partida {
     }
 
     public static void cambiarTurno(){
-        turno = true ? false : true; // ! MAL
+        if (turno){
+            turno = false;
+        } else turno = true;
     }
 }

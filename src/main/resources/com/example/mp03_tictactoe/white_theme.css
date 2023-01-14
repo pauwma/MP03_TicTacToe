@@ -15,4 +15,23 @@
 -fx-border-style: solid;
  -fx-border-width: 1px;
  -fx-border-color: gray;
+ }
+
+#btn_stop{
+ -fx-background-color: #ec4b4b;
+ -fx-background-radius: 30;
+ -fx-background-insets: 0;
+ -fx-text-fill: white;
+}
+
+#btn_start{
+ -fx-background-color: #2fe95e;
+ -fx-background-radius: 30;
+ -fx-background-insets: 0;
+ -fx-text-fill: white;
+}
+
+}
+#innerBorder{
+-fx-background-color: #FFFFFF;
 }
