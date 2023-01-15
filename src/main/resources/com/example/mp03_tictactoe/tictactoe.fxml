@@ -30,11 +30,11 @@
          </children>
       </AnchorPane>
       <Button fx:id="btnTheme" contentDisplay="CENTER" layoutX="700.0" layoutY="32.0" mnemonicParsing="false" onAction="#changeTheme" prefHeight="30.0" prefWidth="30.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
-      <Button fx:id="btn_start" contentDisplay="CENTER" layoutX="488.0" layoutY="383.0" mnemonicParsing="false" onAction="#startGame" prefHeight="37.0" prefWidth="107.0" text="Start">
+      <Button fx:id="btn_start" contentDisplay="CENTER" layoutX="488.0" layoutY="383.0" mnemonicParsing="false" onAction="#startGame" prefHeight="37.0" prefWidth="107.0" text="START">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <Button fx:id="btn_stop" contentDisplay="CENTER" layoutX="618.0" layoutY="383.0" mnemonicParsing="false" onAction="#stopGame" prefHeight="37.0" prefWidth="107.0" text="Stop">
+      <Button fx:id="btn_stop" contentDisplay="CENTER" layoutX="618.0" layoutY="383.0" mnemonicParsing="false" onAction="#stopGame" prefHeight="37.0" prefWidth="107.0" text="STOP">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>

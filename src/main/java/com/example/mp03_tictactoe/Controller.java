@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -82,6 +83,8 @@ public class Controller implements Initializable {
     @FXML
     RadioButton btn_gamemode2;
 
+    // * ----------------------------------------
+
     public void gamemodeSelector(){
         if (btn_gamemode0.isSelected()){
             System.out.println("GAMEMODE 1");
@@ -101,12 +104,12 @@ public class Controller implements Initializable {
         btnEnable(); // ? Activa todos los botones
         partida.setStarted(true); // ? Pone la variable de la partida iniciada en true
         partida.setTurno(true); // ! ¿?
+        partida.setnTurno(0);
         btn_start.setDisable(true); // ? Desactiva el botón de iniciar
         btn_stop.setDisable(false); // ? Activa el botón de finalizar
         btnResetColor();    // ? Resetea los colores de los botones
         cambiarTurnoBorde(true);    // ? Pone el borde del color del turno
 
-        // TODO Hacer funcionamiento
         switch (Partida.getMode()){
             case 1:
                 System.out.println("START GAME - MODE PLAYER VS PLAYER");
@@ -116,6 +119,7 @@ public class Controller implements Initializable {
                 break;
             case 3:
                 System.out.println("START GAME - MODE MACHINE VS MACHINE");
+                machineVSmachine();
                 break;
         }
 
@@ -124,7 +128,7 @@ public class Controller implements Initializable {
     public void stopGame(ActionEvent event) {
 
         btn_stop = (Button) event.getSource(); // ? Obtiene el botón del evento
-        Boolean respuesta = Alerts.Abandonar_Partida(); // ? Muestra la alerta de finalizar partida
+        Boolean respuesta = Alerts.abandonarPartida(); // ? Muestra la alerta de finalizar partida
 
         if(respuesta) {
             btn_stop.setDisable(true); // ? Desactiva el botón de finalizar
@@ -133,6 +137,7 @@ public class Controller implements Initializable {
             btnDisable(); // ? Desactiva todos los botones
             btnResetColor(); // ? Resetea todos los colores
             Partida.restart();
+            turnoBorder.setBackground(new Background(new BackgroundFill(Color.web("#807E7D"), CornerRadii.EMPTY, Insets.EMPTY))); // ? Color borde
             System.out.println("STOP GAME");
         }
     }   // ? Método de finalización de la partida
@@ -149,16 +154,32 @@ public class Controller implements Initializable {
             Partida.cambiarTurno();         // ? Cambia el turno
             Partida.setnTurno(Partida.getnTurno() + 1);     // ? Suma una posición al turno
             Partida.mostrarTableroLog();
+            comprobarGanador();
 
-            if (Partida.comprobarGanador() == 1){
-                setGanador(1);
-            } else if (Partida.comprobarGanador() == 2) {
-                setGanador(2);
-            } else if (Partida.getnTurno() > 8 && Partida.comprobarGanador() == 0){
-                setGanador(0);
+            System.out.println(partida.isGanador());
+
+            if (Partida.getMode() == 2 && partida.isGanador()){
+                btnRandom();
+                System.out.println("MACHINE PULSE");
             }
         }
     }   // ? Método de selección de botoń de juego
+    public void btnRandom(){
+        int randomBtn = (int) ((Math.random() * (9 - 0)) + 0);
+        if (Partida.nTablero(randomBtn) == 0){
+            listBtn.get(randomBtn).setDisable(true);        // ? Deshabilita el botón pulsado
+            Partida.marcar(randomBtn);          // ? Transforma el contenido de la posición del botón según el turno
+            cambiarTurnoBoton(randomBtn);       // ? Cambia el color del botón según el turno
+            cambiarTurnoBorde();            // ? Cambia el color del borde según el turno
+            Partida.cambiarTurno();         // ? Cambia el turno
+            Partida.setnTurno(Partida.getnTurno() + 1);     // ? Suma una posición al turno
+            Partida.mostrarTableroLog();
+            comprobarGanador();
+        } else btnRandom();
+    }
+    public void machineVSmachine(){
+        // TODO Hacer
+    }
     private void cambiarTurnoBoton(int nBtn){
         switch (nBtn){
             case 0:
@@ -266,6 +287,7 @@ public class Controller implements Initializable {
             tmpBtn.setBackground(new Background(new BackgroundFill(Color.web("#ffffff"), CornerRadii.EMPTY, Insets.EMPTY)));
         }
     }   // ? Deshabilita todos los botones
+    @FXML
     public void changeTheme(ActionEvent event){
         if (theme){
             btnTheme.getScene().getStylesheets().remove(darkTheme);
@@ -279,6 +301,15 @@ public class Controller implements Initializable {
             theme = true;
         }
     }   // ? Método cambio de tema
+    public void comprobarGanador(){
+        if (Partida.comprobarGanador() == 1){
+            setGanador(1);
+        } else if (Partida.comprobarGanador() == 2) {
+            setGanador(2);
+        } else if (Partida.getnTurno() > 8 && Partida.comprobarGanador() == 0){
+            setGanador(0);
+        }
+    }
     public void setGanador(int nGanador){
         btnDisable();
         switch (nGanador){
