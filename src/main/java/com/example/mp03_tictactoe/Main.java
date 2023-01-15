@@ -17,7 +17,7 @@ public class Main extends Application {
         // ? Creación del "sandwich"
         Group root = new Group();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Main.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("tictactoe.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add(this.getClass().getResource("dark_theme.css").toExternalForm());
 
