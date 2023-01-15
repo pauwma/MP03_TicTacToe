@@ -85,13 +85,15 @@ public class Controller implements Initializable {
     public void gamemodeSelector(){
         if (btn_gamemode0.isSelected()){
             System.out.println("GAMEMODE 1");
+            Partida.setMode(1);
         } else if (btn_gamemode1.isSelected()){
             System.out.println("GAMEMODE 2");
+            Partida.setMode(2);
         } else if (btn_gamemode2.isSelected()){
             System.out.println("GAMEMODE 3");
+            Partida.setMode(3);
         }
-    }
-
+    }   // ? Cambia el modo de juego
     @FXML
     public void startGame(ActionEvent event){
         btn_start = (Button) event.getSource(); // ? Obtiene el botón del evento
@@ -101,11 +103,23 @@ public class Controller implements Initializable {
         partida.setTurno(true); // ! ¿?
         btn_start.setDisable(true); // ? Desactiva el botón de iniciar
         btn_stop.setDisable(false); // ? Activa el botón de finalizar
+        btnResetColor();    // ? Resetea los colores de los botones
+        cambiarTurnoBorde(true);    // ? Pone el borde del color del turno
 
         // TODO Hacer funcionamiento
-        System.out.println("START GAME");
+        switch (Partida.getMode()){
+            case 1:
+                System.out.println("START GAME - MODE PLAYER VS PLAYER");
+                break;
+            case 2:
+                System.out.println("START GAME - MODE PLAYER VS MACHINE");
+                break;
+            case 3:
+                System.out.println("START GAME - MODE MACHINE VS MACHINE");
+                break;
+        }
 
-    }     // ? Método de inicio de la partida
+    }   // ? Método de inicio de la partida
     @FXML
     public void stopGame(ActionEvent event) {
 
@@ -118,20 +132,33 @@ public class Controller implements Initializable {
             //Partida.AbandonarPartida(); // ? Función de acabar partida de la clase partida
             btnDisable(); // ? Desactiva todos los botones
             btnResetColor(); // ? Resetea todos los colores
+            Partida.restart();
+            System.out.println("STOP GAME");
         }
-    }     // ? Método de finalización de la partida
+    }   // ? Método de finalización de la partida
     public void btnSelected(ActionEvent event) throws InterruptedException {
         // ? Comprueba si la partida está iniciada
         if (Partida.getStarted()){
-            tmpBtn = (Button) event.getSource();
-            String bId = tmpBtn.getId().replaceAll("[btn]","");
+            tmpBtn = (Button) event.getSource();        // ? Obtiene el botón del evento
+            String bId = tmpBtn.getId().replaceAll("[btn]","");     // ? Obtiene el ID del botón y la transforma a integer
             int idBtn =Integer.valueOf(bId);
-            tmpBtn.setDisable(true);
-            cambiarTurnoBoton(idBtn);
-            cambiarTurnoBorde();
-            Partida.cambiarTurno();
+            tmpBtn.setDisable(true);        // ? Deshabilita el botón pulsado
+            Partida.marcar(idBtn);          // ? Transforma el contenido de la posición del botón según el turno
+            cambiarTurnoBoton(idBtn);       // ? Cambia el color del botón según el turno
+            cambiarTurnoBorde();            // ? Cambia el color del borde según el turno
+            Partida.cambiarTurno();         // ? Cambia el turno
+            Partida.setnTurno(Partida.getnTurno() + 1);     // ? Suma una posición al turno
+            Partida.mostrarTableroLog();
+
+            if (Partida.comprobarGanador() == 1){
+                setGanador(1);
+            } else if (Partida.comprobarGanador() == 2) {
+                setGanador(2);
+            } else if (Partida.getnTurno() > 8 && Partida.comprobarGanador() == 0){
+                setGanador(0);
+            }
         }
-    }     // ? Método de selección de botoń de juego
+    }   // ? Método de selección de botoń de juego
     private void cambiarTurnoBoton(int nBtn){
         switch (nBtn){
             case 0:
@@ -198,14 +225,21 @@ public class Controller implements Initializable {
                 }
                 break;
         }
-    } // ? Cambia el color del botón según el turno
+    }   // ? Cambia el color del botón según el turno
     private void cambiarTurnoBorde(){
         if (partida.getTurno()){
             turnoBorder.setBackground(new Background(new BackgroundFill(Color.web(colorJugador2), CornerRadii.EMPTY, Insets.EMPTY)));
         } else {
             turnoBorder.setBackground(new Background(new BackgroundFill(Color.web(colorJugador1), CornerRadii.EMPTY, Insets.EMPTY)));
         }
-    } // ? Cambia el color del borde del tablero según el turno
+    }   // ? Cambia el color del borde del tablero según el turno
+    private void cambiarTurnoBorde(boolean turno){
+        if (turno){
+            turnoBorder.setBackground(new Background(new BackgroundFill(Color.web(colorJugador1), CornerRadii.EMPTY, Insets.EMPTY)));
+        } else {
+            turnoBorder.setBackground(new Background(new BackgroundFill(Color.web(colorJugador2), CornerRadii.EMPTY, Insets.EMPTY)));
+        }
+    }   // ? Cambia el color del borde del tablero según el turno
     private void addAllBtn(){
         listBtn.add(btn0);
         listBtn.add(btn1);
@@ -216,22 +250,22 @@ public class Controller implements Initializable {
         listBtn.add(btn6);
         listBtn.add(btn7);
         listBtn.add(btn8);
-    } // ? Añade los botones a la lista de botones
+    }   // ? Añade los botones a la lista de botones
     private void btnEnable(){
         for(Button tmpBtn : listBtn){
             tmpBtn.setDisable(false);
         }
-    }// ? Habilita todos los botones
+    }   // ? Habilita todos los botones
     public void btnDisable(){
         for(Button tmpBtn : listBtn){
             tmpBtn.setDisable(true);
         }
-    } // ? Deshabilita todos los botones
+    }   // ? Deshabilita todos los botones
     public void btnResetColor(){
         for(Button tmpBtn : listBtn){
             tmpBtn.setBackground(new Background(new BackgroundFill(Color.web("#ffffff"), CornerRadii.EMPTY, Insets.EMPTY)));
         }
-    } // ? Deshabilita todos los botones
+    }   // ? Deshabilita todos los botones
     public void changeTheme(ActionEvent event){
         if (theme){
             btnTheme.getScene().getStylesheets().remove(darkTheme);
@@ -244,8 +278,27 @@ public class Controller implements Initializable {
             btnTheme.setGraphic(whiteView);
             theme = true;
         }
-    } // ? Método cambio de tema
-
+    }   // ? Método cambio de tema
+    public void setGanador(int nGanador){
+        btnDisable();
+        switch (nGanador){
+            case 0:
+                turnoBorder.setBackground(new Background(new BackgroundFill(Color.web("#807E7D"), CornerRadii.EMPTY, Insets.EMPTY))); // ? Color borde
+                System.out.println("EMPATE");
+                break;
+            case 1:
+                turnoBorder.setBackground(new Background(new BackgroundFill(Color.web(colorJugador1), CornerRadii.EMPTY, Insets.EMPTY))); // ? Color borde
+                System.out.println("GANADOR - Jugador 1");
+                break;
+            case 2:
+                System.out.println("GANADOR - Jugador 2");
+                turnoBorder.setBackground(new Background(new BackgroundFill(Color.web(colorJugador2), CornerRadii.EMPTY, Insets.EMPTY))); // ? Color borde
+                break;
+        }
+        Partida.restart();
+        btn_start.setDisable(false);
+        btn_stop.setDisable(true);
+    }   // ? Hace los cambios visuales dependiendo del ganador
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // ? Pone la imagen del botón de cambio de tema.

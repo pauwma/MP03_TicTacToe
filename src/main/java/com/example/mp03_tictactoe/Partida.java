@@ -3,15 +3,17 @@ package com.example.mp03_tictactoe;
 public class Partida {
 
     private static boolean started; // ? Determina el estado de la partida  T-Iniciada F-NO Iniciada
-    private int mode = 0; // ? 0- Plyr VS Plyr  1- Plyr VS PC  2- PC VS PC
+    private static int mode = 0; // ? 1- Plyr VS Plyr  2- Plyr VS PC  3- PC VS PC
     private static boolean turno; // ? Turno de jugadores  T-J1 F-J2
-    private int nTurno; // ? Número de turno
+    private static int nTurno; // ? Número de turno
     private static int[][] tablero = new int[3][3]; // ? Matriz del tablero
+
+
 
     public Partida(){
         turno = true;
+        mode = 1;
     }
-
     public static boolean getStarted(){
         return started;
     }
@@ -19,8 +21,11 @@ public class Partida {
         Partida.started = started;
     }
 
-    public int getMode() {
+    public static int getMode() {
         return mode;
+    }
+    public static void setMode(int tmpMode) {
+        mode = tmpMode;
     }
 
     public boolean getTurno() {
@@ -29,18 +34,93 @@ public class Partida {
     public void setTurno(boolean turno) {
         this.turno = turno;
     }
-
-    public int getnTurno() {
+    public static int getnTurno() {
         return nTurno;
     }
-
+    public static void setnTurno(int nTurno) {
+        Partida.nTurno = nTurno;
+    }
     public static int[][] getTablero() {
         return tablero;
     }
-
     public static void cambiarTurno(){
         if (turno){
             turno = false;
         } else turno = true;
     }
+    public static void restart(){
+        tablero = new int[3][3];
+        nTurno = 0;
+    }
+    public static void marcar(int nBtn){
+        switch (nBtn){
+            case 0:
+                tablero[0][0] = turnoMarcar();
+                break;
+            case 1:
+                tablero[0][1] = turnoMarcar();
+                break;
+            case 2:
+                tablero[0][2] = turnoMarcar();
+                break;
+            case 3:
+                tablero[1][0] = turnoMarcar();
+                break;
+            case 4:
+                tablero[1][1] = turnoMarcar();
+                break;
+            case 5:
+                tablero[1][2] = turnoMarcar();
+                break;
+            case 6:
+                tablero[2][0] = turnoMarcar();
+                break;
+            case 7:
+                tablero[2][1] = turnoMarcar();
+                break;
+            case 8:
+                tablero[2][2] = turnoMarcar();
+                break;
+        }
+    }
+    public static int turnoMarcar(){
+        if (turno){
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+    public static int comprobarGanador() {
+        // ? Revisamos las filas
+        for (int i = 0; i < 3; i++) {
+            if (tablero[i][0] == tablero[i][1] && tablero[i][1] == tablero[i][2]) {
+                return tablero[i][0];
+            }
+        }
+
+        // ? Revisamos las columnas
+        for (int j = 0; j < 3; j++) {
+            if (tablero[0][j] == tablero[1][j] && tablero[1][j] == tablero[2][j]) {
+                return tablero[0][j];
+            }
+        }
+
+        // ? Revisamos las diagonales
+        if (tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2]) {
+            return tablero[0][0];
+        }
+        if (tablero[0][2] == tablero[1][1] && tablero[1][1] == tablero[2][0]) {
+            return tablero[0][2];
+        }
+
+        // ? Si no se ha cumplido ninguna de las condiciones anteriores, no hay ganador
+        return 0;
+
+    } // ? Comprueba si hay ganador y si hay te dice cual es
+    public static void mostrarTableroLog(){
+        System.out.println("- JUGADA  nº" + nTurno + " -");
+        System.out.println(tablero[0][0] + " - " + tablero[0][1] + " - " + tablero[0][2]);
+        System.out.println(tablero[1][0] + " - " + tablero[1][1] + " - " + tablero[1][2]);
+        System.out.println(tablero[2][0] + " - " + tablero[2][1] + " - " + tablero[2][2]);
+    } // ! Debug del tablero
 }
