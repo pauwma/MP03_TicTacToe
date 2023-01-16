@@ -89,6 +89,9 @@ public class Controller implements Initializable {
     @FXML
     TextField textJugador2;
 
+    @FXML
+    Button btnStats;
+
     // * ----------------------------------------
 
     public void gamemodeSelector(){
@@ -385,6 +388,11 @@ public class Controller implements Initializable {
         enableModes(true);
         enableNames(true);
     }   // ? Hace los cambios visuales dependiendo del ganador
+
+    @FXML
+    public void showStats(ActionEvent event){
+
+    }   // ? Muestra la tabla de los stats
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // ? Pone la imagen del botón de cambio de tema.

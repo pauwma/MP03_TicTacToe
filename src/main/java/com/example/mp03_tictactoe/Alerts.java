@@ -24,7 +24,6 @@ public class Alerts {
         }
         return respuesta;
     }
-
     public static void faltaNombres() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText("¡Debes introducir el nombre de los jugadores antes de iniciar partida!");
