@@ -26,7 +26,7 @@
  -fx-background-color: #ec4b4b;
  -fx-background-radius: 30;
  -fx-background-insets: 0;
- -fx-text-fill: white;
+ -fx-text-fill: black;
 }
 
 #btn_start{
@@ -34,7 +34,7 @@
  -fx-background-color: #2fe95e;
  -fx-background-radius: 30;
  -fx-background-insets: 0;
- -fx-text-fill: white;
+ -fx-text-fill: black;
 }
 
 }

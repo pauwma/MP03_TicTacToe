@@ -25,4 +25,16 @@ public class Alerts {
         return respuesta;
     }
 
+    public static void faltaNombres() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("¡Debes introducir el nombre de los jugadores antes de iniciar partida!");
+        alert.getButtonTypes().setAll(ButtonType.CLOSE);
+        alert.showAndWait();
+    }
+    public static void nombresIguales() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("¡Los nombres de los jugadores no pueden ser iguales!");
+        alert.getButtonTypes().setAll(ButtonType.CLOSE);
+        alert.showAndWait();
+    }
 }

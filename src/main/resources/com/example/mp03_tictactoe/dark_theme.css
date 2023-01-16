@@ -40,6 +40,9 @@
 -fx-background-color: #2f2e2e;
 }
 
+.radio-button {
+    -fx-text-fill: white;
+}
 
 .radio-button .radio {
     -fx-border-width: 1px;

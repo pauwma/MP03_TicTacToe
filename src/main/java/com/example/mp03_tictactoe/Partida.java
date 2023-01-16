@@ -1,5 +1,7 @@
 package com.example.mp03_tictactoe;
 
+import java.util.Random;
+
 public class Partida {
 
     private static boolean started; // ? Determina el estado de la partida  T-Iniciada F-NO Iniciada
@@ -150,6 +152,11 @@ public class Partida {
         return 0;
 
     } // ? Comprueba si hay ganador y si hay te dice cual es
+
+    public static void randomTurno(){
+        Random rd = new Random();
+        turno = rd.nextBoolean();
+    }
     public static void mostrarTableroLog(){
         System.out.println("JUGADA  nº" + nTurno);
         System.out.println(tablero[0][0] + " - " + tablero[0][1] + " - " + tablero[0][2]);

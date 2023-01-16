@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -83,44 +84,80 @@ public class Controller implements Initializable {
     @FXML
     RadioButton btn_gamemode2;
 
+    @FXML
+    TextField textJugador1;
+    @FXML
+    TextField textJugador2;
+
     // * ----------------------------------------
 
     public void gamemodeSelector(){
         if (btn_gamemode0.isSelected()){
             System.out.println("GAMEMODE 1");
             Partida.setMode(1);
+            textJugador1.setVisible(true);  // ? Habilita el campo de texto del jugador 1
+            textJugador2.setVisible(true);  // ? Habilita el campo de texto del jugador 2
         } else if (btn_gamemode1.isSelected()){
             System.out.println("GAMEMODE 2");
             Partida.setMode(2);
+            textJugador1.setVisible(false);  // ? Deshabilita el campo de texto del jugador 1
+            textJugador2.setVisible(false);  // ? Deshabilita el campo de texto del jugador 2
         } else if (btn_gamemode2.isSelected()){
             System.out.println("GAMEMODE 3");
             Partida.setMode(3);
+            textJugador1.setVisible(false);  // ? Deshabilita el campo de texto del jugador 1
+            textJugador2.setVisible(false);  // ? Deshabilita el campo de texto del jugador 2
         }
     }   // ? Cambia el modo de juego
     @FXML
     public void startGame(ActionEvent event){
+        boolean gameCorrecto = false;
         btn_start = (Button) event.getSource(); // ? Obtiene el botón del evento
-        addAllBtn();
-        btnEnable(); // ? Activa todos los botones
-        partida.setStarted(true); // ? Pone la variable de la partida iniciada en true
-        partida.setTurno(true); // ! ¿?
-        partida.setnTurno(0);
-        btn_start.setDisable(true); // ? Desactiva el botón de iniciar
-        btn_stop.setDisable(false); // ? Activa el botón de finalizar
-        btnResetColor();    // ? Resetea los colores de los botones
-        cambiarTurnoBorde(true);    // ? Pone el borde del color del turno
 
-        switch (Partida.getMode()){
-            case 1:
-                System.out.println("START GAME - MODE PLAYER VS PLAYER");
-                break;
-            case 2:
-                System.out.println("START GAME - MODE PLAYER VS MACHINE");
-                break;
-            case 3:
-                System.out.println("START GAME - MODE MACHINE VS MACHINE");
-                machineVSmachine();
-                break;
+        if (Partida.getMode() == 1){
+            if (textJugador1.getText().trim().isEmpty() || textJugador2.getText().trim().isEmpty()){
+                Alerts.faltaNombres();
+                textJugador1.clear();
+                textJugador2.clear();
+            } else if (textJugador1.getText().toLowerCase().trim().equals(textJugador2.getText().trim().toLowerCase())) {
+                Alerts.nombresIguales();
+            } else {
+                gameCorrecto = true;
+            }
+        } else gameCorrecto = true;
+        if (gameCorrecto){
+            addAllBtn();
+            btnEnable(); // ? Activa todos los botones
+            partida.setStarted(true); // ? Pone la variable de la partida iniciada en true
+            switch (Partida.getMode()){
+                case 1:
+                    partida.randomTurno();
+                    enableModes(false);
+                    break;
+                case 2,3:
+                    partida.setTurno(true);
+                    break;
+            }
+            partida.setnTurno(0);
+            btn_start.setDisable(true); // ? Desactiva el botón de iniciar
+            btn_stop.setDisable(false); // ? Activa el botón de finalizar
+            btnResetColor();    // ? Resetea los colores de los botones
+            cambiarTurnoBorde(partida.getTurno());    // ? Pone el borde del color del turno
+            enableModes(false); // ? Desactiva los botones de modos
+            enableNames(false); // ? Desactiva los textos de jugadores
+
+            switch (Partida.getMode()){
+                case 1:
+                    System.out.println("START GAME - MODE PLAYER VS PLAYER");
+                    break;
+                case 2:
+                    System.out.println("START GAME - MODE PLAYER VS MACHINE");
+                    break;
+                case 3:
+                    System.out.println("START GAME - MODE MACHINE VS MACHINE");
+                    machineVSmachine();
+                    break;
+            }
         }
 
     }   // ? Método de inicio de la partida
@@ -133,6 +170,8 @@ public class Controller implements Initializable {
         if(respuesta) {
             btn_stop.setDisable(true); // ? Desactiva el botón de finalizar
             btn_start.setDisable(false); // ? Activa el botón de empezar
+            enableModes(true); // ? Activa los botones de modos
+            enableNames(true); // ? Activa los textos de los nombres
             //Partida.AbandonarPartida(); // ? Función de acabar partida de la clase partida
             btnDisable(); // ? Desactiva todos los botones
             btnResetColor(); // ? Resetea todos los colores
@@ -142,23 +181,20 @@ public class Controller implements Initializable {
         }
     }   // ? Método de finalización de la partida
     public void btnSelected(ActionEvent event) throws InterruptedException {
-        // ? Comprueba si la partida está iniciada
-        if (Partida.getStarted()){
-            tmpBtn = (Button) event.getSource();        // ? Obtiene el botón del evento
-            String bId = tmpBtn.getId().replaceAll("[btn]","");     // ? Obtiene el ID del botón y la transforma a integer
-            int idBtn =Integer.valueOf(bId);
-            tmpBtn.setDisable(true);        // ? Deshabilita el botón pulsado
-            Partida.marcar(idBtn);          // ? Transforma el contenido de la posición del botón según el turno
-            cambiarTurnoBoton(idBtn);       // ? Cambia el color del botón según el turno
-            cambiarTurnoBorde();            // ? Cambia el color del borde según el turno
-            Partida.cambiarTurno();         // ? Cambia el turno
-            Partida.setnTurno(Partida.getnTurno() + 1);     // ? Suma una posición al turno
-            Partida.mostrarTableroLog();
-            comprobarGanador();
+        tmpBtn = (Button) event.getSource();        // ? Obtiene el botón del evento
+        String bId = tmpBtn.getId().replaceAll("[btn]","");     // ? Obtiene el ID del botón y la transforma a integer
+        int idBtn =Integer.valueOf(bId);
+        tmpBtn.setDisable(true);        // ? Deshabilita el botón pulsado
+        Partida.marcar(idBtn);          // ? Transforma el contenido de la posición del botón según el turno
+        cambiarTurnoBoton(idBtn);       // ? Cambia el color del botón según el turno
+        cambiarTurnoBorde();            // ? Cambia el color del borde según el turno
+        Partida.cambiarTurno();         // ? Cambia el turno
+        Partida.setnTurno(Partida.getnTurno() + 1);     // ? Suma una posición al turno
+        Partida.mostrarTableroLog();
+        comprobarGanador();
 
-            if (Partida.getMode() == 2 && partida.isGanador()){
-                btnRandom();
-            }
+        if (Partida.getMode() == 2 && partida.isGanador()){
+            btnRandom();
         }
     }   // ? Método de selección de botoń de juego
     public void btnRandom(){
@@ -284,6 +320,26 @@ public class Controller implements Initializable {
             tmpBtn.setBackground(new Background(new BackgroundFill(Color.web("#ffffff"), CornerRadii.EMPTY, Insets.EMPTY)));
         }
     }   // ? Deshabilita todos los botones
+    public void enableModes(boolean active){
+        if (!active){
+            btn_gamemode0.setDisable(true);
+            btn_gamemode1.setDisable(true);
+            btn_gamemode2.setDisable(true);
+        } else {
+            btn_gamemode0.setDisable(false);
+            btn_gamemode1.setDisable(false);
+            btn_gamemode2.setDisable(false);
+        }
+    }   // ? Alterna la activación de los botones de modos
+    public void enableNames(boolean active){
+        if (!active){
+            textJugador1.setDisable(true);
+            textJugador2.setDisable(true);
+        } else {
+            textJugador1.setDisable(false);
+            textJugador2.setDisable(false);
+        }
+    }   // ? Alterna la activación de los botones de modos
     @FXML
     public void changeTheme(ActionEvent event){
         if (theme){
@@ -306,7 +362,7 @@ public class Controller implements Initializable {
         } else if (Partida.getnTurno() > 8 && Partida.comprobarGanador() == 0){
             setGanador(0);
         }
-    }
+    }   // ? Según el ganador cambia la interfaz
     public void setGanador(int nGanador){
         btnDisable();
         switch (nGanador){
@@ -326,6 +382,8 @@ public class Controller implements Initializable {
         Partida.restart();
         btn_start.setDisable(false);
         btn_stop.setDisable(true);
+        enableModes(true);
+        enableNames(true);
     }   // ? Hace los cambios visuales dependiendo del ganador
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
