@@ -156,11 +156,8 @@ public class Controller implements Initializable {
             Partida.mostrarTableroLog();
             comprobarGanador();
 
-            System.out.println(partida.isGanador());
-
             if (Partida.getMode() == 2 && partida.isGanador()){
                 btnRandom();
-                System.out.println("MACHINE PULSE");
             }
         }
     }   // ? Método de selección de botoń de juego

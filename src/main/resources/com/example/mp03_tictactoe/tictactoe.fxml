@@ -38,12 +38,12 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <RadioButton fx:id="btn_gamemode0" layoutX="575.0" layoutY="212.0" mnemonicParsing="false" onAction="#gamemodeSelector" selected="true" text="RadioButton">
+      <RadioButton fx:id="btn_gamemode0" layoutX="575.0" layoutY="212.0" mnemonicParsing="false" onAction="#gamemodeSelector" selected="true" text="Player VS Player">
          <toggleGroup>
             <ToggleGroup fx:id="gamemode" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="btn_gamemode1" layoutX="575.0" layoutY="242.0" mnemonicParsing="false" onAction="#gamemodeSelector" text="RadioButton" toggleGroup="$gamemode" />
-      <RadioButton fx:id="btn_gamemode2" layoutX="575.0" layoutY="272.0" mnemonicParsing="false" onAction="#gamemodeSelector" text="RadioButton" toggleGroup="$gamemode" />
+      <RadioButton fx:id="btn_gamemode1" layoutX="575.0" layoutY="242.0" mnemonicParsing="false" onAction="#gamemodeSelector" text="Player VS Machine" toggleGroup="$gamemode" />
+      <RadioButton fx:id="btn_gamemode2" layoutX="575.0" layoutY="272.0" mnemonicParsing="false" onAction="#gamemodeSelector" text="Machine VS Machine" toggleGroup="$gamemode" />
    </children>
 </AnchorPane>
