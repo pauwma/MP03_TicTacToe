@@ -373,14 +373,26 @@ public class Controller implements Initializable {
             case 0:
                 turnoBorder.setBackground(new Background(new BackgroundFill(Color.web("#807E7D"), CornerRadii.EMPTY, Insets.EMPTY))); // ? Color borde
                 System.out.println("EMPATE");
+                if (Partida.getMode() == 1){
+                    stats.updatePlayerStat(textJugador1.getText(),"draw",1);
+                    stats.updatePlayerStat(textJugador2.getText(),"draw",1);
+                }
                 break;
             case 1:
                 turnoBorder.setBackground(new Background(new BackgroundFill(Color.web(colorJugador1), CornerRadii.EMPTY, Insets.EMPTY))); // ? Color borde
                 System.out.println("GANADOR - Jugador 1");
+                if (Partida.getMode() == 1) {
+                    stats.updatePlayerStat(textJugador1.getText(), "win", 1);
+                    stats.updatePlayerStat(textJugador2.getText(), "lost", 1);
+                }
                 break;
             case 2:
                 System.out.println("GANADOR - Jugador 2");
                 turnoBorder.setBackground(new Background(new BackgroundFill(Color.web(colorJugador2), CornerRadii.EMPTY, Insets.EMPTY))); // ? Color borde
+                if (Partida.getMode() == 1){
+                    stats.updatePlayerStat(textJugador1.getText(),"lost",1);
+                    stats.updatePlayerStat(textJugador2.getText(),"win",1);
+                }
                 break;
         }
         Partida.restart();

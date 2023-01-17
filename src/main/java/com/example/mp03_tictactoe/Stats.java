@@ -9,6 +9,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.Comparator;
+
 public class Stats {
     private TableView<Jugador> table;
     private ObservableList<Jugador> data;
@@ -18,14 +20,65 @@ public class Stats {
     private TableColumn<Jugador, Integer> drawCol;
 
     public Stats(){
-        // inicializar las variables aquí
+        data = FXCollections.observableArrayList();
     }
 
-    // métodos y código aquí
+    // ? Hace un update del jugador de la stat pasada por parámetros y si el jugador no existe la crea
+    public void updatePlayerStat(String name, String stat, int value) {
+        boolean exist = false;
+        for (Jugador p : data) {
+            if (p.getNombre().equals(name)) {
+                exist = true;
+                switch (stat) {
+                    case "win":
+                        p.setGanadas(p.getGanadas() + value);
+                        break;
+                    case "lost":
+                        p.setPerdidas(p.getPerdidas() + value);
+                        break;
+                    case "draw":
+                        p.setEmpatadas(p.getEmpatadas() + value);
+                        break;
+                    default:
+                        System.out.println("La estadística especificada no es válida");
+                }
+                break;
+            }
+        }
+        if(!exist) {
+            Jugador newPlayer = new Jugador(name);
+            switch (stat) {
+                case "win":
+                    newPlayer.setGanadas(value);
+                    break;
+                case "lost":
+                    newPlayer.setPerdidas(value);
+                    break;
+                case "draw":
+                    newPlayer.setEmpatadas(value);
+                    break;
+                default:
+                    System.out.println("La estadística especificada no es válida");
+            }
+            data.add(newPlayer);
+        }
+    }
 
+    // ? Crea un nuevo stage y una nueva tabla y introduce los datos de la lista de jugadores
     public void showTable(){
-        Stage primaryStage = new Stage();
-        // Crear columnas de la tabla
+        Stage stage = new Stage();
+        table = new TableView<>();
+        table.setItems(this.data);
+
+        // ? Ordenar la tabla según la cantidad de partidas ganadas
+        data.sort(new Comparator<Jugador>() {
+            @Override
+            public int compare(Jugador o1, Jugador o2) {
+                return Integer.compare(o2.getGanadas(), o1.getGanadas());
+            }
+        });
+
+        // ? Crear columnas de la tabla
         nameCol = new TableColumn<>("Nombre");
         nameCol.setMinWidth(200);
         nameCol.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -42,18 +95,16 @@ public class Stats {
         drawCol.setMinWidth(100);
         drawCol.setCellValueFactory(new PropertyValueFactory<>("empatadas"));
 
-        data = FXCollections.observableArrayList(
-                new Jugador("Jugador 1", 10, 5, 2),
-                new Jugador("Jugador 2", 8, 7, 3),
-                new Jugador("Jugador 3", 7, 8, 5)
-        );
+        table.getColumns().addAll(nameCol, winCol, lostCol, drawCol);
 
         // Crear tabla y añadir las columnas
         table = new TableView<>();
         table.setItems(data);
         table.getColumns().addAll(nameCol, winCol, lostCol, drawCol);
 
-        primaryStage.setScene(new Scene(new VBox(table), 600, 400));
-        primaryStage.show();
+        stage.setScene(new Scene(new VBox(table), 500, 400));
+        stage.setTitle("Estadísticas de Jugadores");
+        stage.setResizable(false);
+        stage.show();
     }
 }

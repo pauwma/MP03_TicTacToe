@@ -13,6 +13,13 @@ public class Jugador {
         this.empatadas = empatadas;
     }
 
+    public Jugador(String nombre){
+        this.nombre = nombre;
+        ganadas = 0;
+        perdidas = 0;
+        empatadas = 0;
+    }
+
     public String getNombre() {
         return nombre;
     }
