@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     private static Partida partida = new Partida();
+    private static Stats stats = new Stats();
 
     // ? Botones de control de la partida
     @FXML
@@ -391,7 +392,7 @@ public class Controller implements Initializable {
 
     @FXML
     public void showStats(ActionEvent event){
-
+        stats.showTable();
     }   // ? Muestra la tabla de los stats
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
