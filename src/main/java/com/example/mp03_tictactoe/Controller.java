@@ -84,12 +84,10 @@ public class Controller implements Initializable {
     RadioButton btn_gamemode1;
     @FXML
     RadioButton btn_gamemode2;
-
     @FXML
     TextField textJugador1;
     @FXML
     TextField textJugador2;
-
     @FXML
     Button btnStats;
 
@@ -401,7 +399,6 @@ public class Controller implements Initializable {
         enableModes(true);
         enableNames(true);
     }   // ? Hace los cambios visuales dependiendo del ganador
-
     @FXML
     public void showStats(ActionEvent event){
         stats.showTable();
