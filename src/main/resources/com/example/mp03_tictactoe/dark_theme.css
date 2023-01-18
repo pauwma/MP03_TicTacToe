@@ -32,14 +32,14 @@
 }
 
 #btn_stop{
--fx-background-color: #ec4b4b;
+-fx-background-color: #5c5b5b;
 -fx-background-radius: 30;
 -fx-background-insets: 0;
 -fx-text-fill: white;
 }
 
 #btn_start{
--fx-background-color: #2fe95e;
+-fx-background-color: #5c5b5b;
 -fx-background-radius: 30;
 -fx-background-insets: 0;
 -fx-text-fill: white;
