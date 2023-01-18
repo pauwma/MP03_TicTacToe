@@ -4,12 +4,11 @@ import java.util.Random;
 
 public class Partida {
 
-    private static boolean started; // ? Determina el estado de la partida  T-Iniciada F-NO Iniciada
-    private static boolean ganador;
-    private static int mode = 0; // ? 1- Plyr VS Plyr  2- Plyr VS PC  3- PC VS PC
-    private static boolean turno; // ? Turno de jugadores  T-J1 F-J2
-    private static int nTurno; // ? Número de turno
-    private static int[][] tablero = new int[3][3]; // ? Matriz del tablero
+    private boolean ganador;
+    private int mode = 0; // ? 1- Plyr VS Plyr  2- Plyr VS PC  3- PC VS PC
+    private boolean turno; // ? Turno de jugadores  T-J1 F-J2
+    private int nTurno; // ? Número de turno
+    private int[][] tablero = new int[3][3]; // ? Matriz del tablero
     public Partida(){
         turno = true;
         mode = 1;
@@ -18,16 +17,10 @@ public class Partida {
 
     // * --------------------------------
 
-    public static boolean getStarted(){
-        return started;
-    }
-    public static void setStarted(boolean started) {
-        Partida.started = started;
-    }
-    public static int getMode() {
+    public int getMode() {
         return mode;
     }
-    public static void setMode(int tmpMode) {
+    public void setMode(int tmpMode) {
         mode = tmpMode;
     }
     public boolean getTurno() {
@@ -36,34 +29,34 @@ public class Partida {
     public void setTurno(boolean turno) {
         this.turno = turno;
     }
-    public static int getnTurno() {
+    public int getnTurno() {
         return nTurno;
     }
-    public static void setnTurno(int nTurno) {
-        Partida.nTurno = nTurno;
+    public void setnTurno(int nTurno) {
+        this.nTurno = nTurno;
     }
-    public static int[][] getTablero() {
+    public int[][] getTablero() {
         return tablero;
     }
-    public static boolean isGanador() {
+    public boolean isGanador() {
         return ganador;
     }
-    public static void setGanador(boolean ganador) {
-        Partida.ganador = ganador;
+    public void setGanador(boolean ganador) {
+        this.ganador = ganador;
     }
     // * --------------------------------
 
-    public static void cambiarTurno(){
+    public void cambiarTurno(){
         if (turno){
             turno = false;
         } else turno = true;
     }
-    public static void restart(){
+    public void restart(){
         tablero = new int[3][3];
         nTurno = 0;
         ganador = false;
     }
-    public static void marcar(int nBtn){
+    public void marcar(int nBtn){
         switch (nBtn){
             case 0:
                 tablero[0][0] = turnoMarcar();
@@ -94,7 +87,7 @@ public class Partida {
                 break;
         }
     }
-    public static int nTablero(int n){
+    public int nTablero(int n){
         if (n==0) {
             return tablero[0][0];
         } else if (n==1) {
@@ -115,14 +108,14 @@ public class Partida {
             return tablero[2][2];
         } else return 99;
     }
-    public static int turnoMarcar(){
+    public int turnoMarcar(){
         if (turno){
             return 1;
         } else {
             return 2;
         }
     }
-    public static int comprobarGanador() {
+    public int comprobarGanador() {
         // ? Revisamos las filas
         for (int i = 0; i < 3; i++) {
             if (tablero[i][0] == tablero[i][1] && tablero[i][1] == tablero[i][2]) {
@@ -153,11 +146,11 @@ public class Partida {
 
     } // ? Comprueba si hay ganador y si hay te dice cual es
 
-    public static void randomTurno(){
+    public void randomTurno(){
         Random rd = new Random();
         turno = rd.nextBoolean();
     }
-    public static void mostrarTableroLog(){
+    public void mostrarTableroLog(){
         System.out.println("JUGADA  nº" + nTurno);
         System.out.println(tablero[0][0] + " - " + tablero[0][1] + " - " + tablero[0][2]);
         System.out.println(tablero[1][0] + " - " + tablero[1][1] + " - " + tablero[1][2]);

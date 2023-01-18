@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -61,6 +62,9 @@ public class Controller implements Initializable {
     @FXML
     AnchorPane turnoBorder;
 
+    @FXML
+    ToolBar toolBar;
+
     // ? Temas CSS
     String whiteTheme = this.getClass().getResource("white_theme.css").toExternalForm();
     String darkTheme = this.getClass().getResource("dark_theme.css").toExternalForm();
@@ -101,17 +105,17 @@ public class Controller implements Initializable {
     public void gamemodeSelector(){
         if (btn_gamemode0.isSelected()){
             System.out.println("GAMEMODE 1");
-            Partida.setMode(1);
+            partida.setMode(1);
             textJugador1.setVisible(true);  // ? Habilita el campo de texto del jugador 1
             textJugador2.setVisible(true);  // ? Habilita el campo de texto del jugador 2
         } else if (btn_gamemode1.isSelected()){
             System.out.println("GAMEMODE 2");
-            Partida.setMode(2);
+            partida.setMode(2);
             textJugador1.setVisible(false);  // ? Deshabilita el campo de texto del jugador 1
             textJugador2.setVisible(false);  // ? Deshabilita el campo de texto del jugador 2
         } else if (btn_gamemode2.isSelected()){
             System.out.println("GAMEMODE 3");
-            Partida.setMode(3);
+            partida.setMode(3);
             textJugador1.setVisible(false);  // ? Deshabilita el campo de texto del jugador 1
             textJugador2.setVisible(false);  // ? Deshabilita el campo de texto del jugador 2
         }
@@ -121,7 +125,7 @@ public class Controller implements Initializable {
         boolean gameCorrecto = false;
         btn_start = (Button) event.getSource(); // ? Obtiene el botón del evento
 
-        if (Partida.getMode() == 1){
+        if (partida.getMode() == 1){
             if (textJugador1.getText().trim().isEmpty() || textJugador2.getText().trim().isEmpty()){
                 Alerts.faltaNombres();
                 textJugador1.clear();
@@ -135,8 +139,7 @@ public class Controller implements Initializable {
         if (gameCorrecto){
             addAllBtn();
             btnEnable(); // ? Activa todos los botones
-            partida.setStarted(true); // ? Pone la variable de la partida iniciada en true
-            switch (Partida.getMode()){
+            switch (partida.getMode()){
                 case 1:
                     partida.randomTurno();
                     enableModes(false);
@@ -153,7 +156,7 @@ public class Controller implements Initializable {
             enableModes(false); // ? Desactiva los botones de modos
             enableNames(false); // ? Desactiva los textos de jugadores
 
-            switch (Partida.getMode()){
+            switch (partida.getMode()){
                 case 1:
                     System.out.println("START GAME - MODE PLAYER VS PLAYER");
                     break;
@@ -182,7 +185,7 @@ public class Controller implements Initializable {
             //Partida.AbandonarPartida(); // ? Función de acabar partida de la clase partida
             btnDisable(); // ? Desactiva todos los botones
             btnResetColor(); // ? Resetea todos los colores
-            Partida.restart();
+            partida.restart();
             turnoBorder.setBackground(new Background(new BackgroundFill(Color.web("#807E7D"), CornerRadii.EMPTY, Insets.EMPTY))); // ? Color borde
             System.out.println("STOP GAME");
         }
@@ -192,30 +195,34 @@ public class Controller implements Initializable {
         String bId = tmpBtn.getId().replaceAll("[btn]","");     // ? Obtiene el ID del botón y la transforma a integer
         int idBtn =Integer.valueOf(bId);
         tmpBtn.setDisable(true);        // ? Deshabilita el botón pulsado
-        Partida.marcar(idBtn);          // ? Transforma el contenido de la posición del botón según el turno
+        partida.marcar(idBtn);          // ? Transforma el contenido de la posición del botón según el turno
         cambiarTurnoBoton(idBtn);       // ? Cambia el color del botón según el turno
         cambiarTurnoBorde();            // ? Cambia el color del borde según el turno
-        Partida.cambiarTurno();         // ? Cambia el turno
-        Partida.setnTurno(Partida.getnTurno() + 1);     // ? Suma una posición al turno
-        Partida.mostrarTableroLog();
+        partida.cambiarTurno();         // ? Cambia el turno
+        partida.setnTurno(partida.getnTurno() + 1);     // ? Suma una posición al turno
+        partida.mostrarTableroLog();
         comprobarGanador();
 
-        if (Partida.getMode() == 2 && partida.isGanador()){
-            btnRandom();
+        if (partida.getMode() == 2 && partida.isGanador()){
+            btnRandomGamemode2();
         }
     }   // ? Método de selección de botoń de juego
-    public void btnRandom(){
+    public void btnRandomGamemode2(){
         int randomBtn = (int) ((Math.random() * (9 - 0)) + 0);
-        if (Partida.nTablero(randomBtn) == 0){
+        if (partida.nTablero(randomBtn) == 0){
             listBtn.get(randomBtn).setDisable(true);        // ? Deshabilita el botón pulsado
-            Partida.marcar(randomBtn);          // ? Transforma el contenido de la posición del botón según el turno
+            partida.marcar(randomBtn);          // ? Transforma el contenido de la posición del botón según el turno
             cambiarTurnoBoton(randomBtn);       // ? Cambia el color del botón según el turno
             cambiarTurnoBorde();            // ? Cambia el color del borde según el turno
-            Partida.cambiarTurno();         // ? Cambia el turno
-            Partida.setnTurno(Partida.getnTurno() + 1);     // ? Suma una posición al turno
-            Partida.mostrarTableroLog();
+            partida.cambiarTurno();         // ? Cambia el turno
+            partida.setnTurno(partida.getnTurno() + 1);     // ? Suma una posición al turno
+            partida.mostrarTableroLog();
             comprobarGanador();
-        } else btnRandom();
+        } else btnRandomGamemode2();
+    }
+    public void btnRandomGamemode3(){
+        int randomBtn = (int) ((Math.random() * (9 - 0)) + 0);
+
     }
     public void machineVSmachine(){
         // TODO Hacer
@@ -364,11 +371,11 @@ public class Controller implements Initializable {
         }
     }   // ? Método cambio de tema
     public void comprobarGanador(){
-        if (Partida.comprobarGanador() == 1){
+        if (partida.comprobarGanador() == 1){
             setGanador(1);
-        } else if (Partida.comprobarGanador() == 2) {
+        } else if (partida.comprobarGanador() == 2) {
             setGanador(2);
-        } else if (Partida.getnTurno() > 8 && Partida.comprobarGanador() == 0){
+        } else if (partida.getnTurno() > 8 && partida.comprobarGanador() == 0){
             setGanador(0);
         }
     }   // ? Según el ganador cambia la interfaz
@@ -378,7 +385,7 @@ public class Controller implements Initializable {
             case 0:
                 turnoBorder.setBackground(new Background(new BackgroundFill(Color.web("#807E7D"), CornerRadii.EMPTY, Insets.EMPTY))); // ? Color borde
                 System.out.println("EMPATE");
-                if (Partida.getMode() == 1){
+                if (partida.getMode() == 1){
                     stats.updatePlayerStat(textJugador1.getText(),"draw",1);
                     stats.updatePlayerStat(textJugador2.getText(),"draw",1);
                 }
@@ -386,7 +393,7 @@ public class Controller implements Initializable {
             case 1:
                 turnoBorder.setBackground(new Background(new BackgroundFill(Color.web(colorJugador1), CornerRadii.EMPTY, Insets.EMPTY))); // ? Color borde
                 System.out.println("GANADOR - Jugador 1");
-                if (Partida.getMode() == 1) {
+                if (partida.getMode() == 1) {
                     stats.updatePlayerStat(textJugador1.getText(), "win", 1);
                     stats.updatePlayerStat(textJugador2.getText(), "lost", 1);
                 }
@@ -394,13 +401,13 @@ public class Controller implements Initializable {
             case 2:
                 System.out.println("GANADOR - Jugador 2");
                 turnoBorder.setBackground(new Background(new BackgroundFill(Color.web(colorJugador2), CornerRadii.EMPTY, Insets.EMPTY))); // ? Color borde
-                if (Partida.getMode() == 1){
+                if (partida.getMode() == 1){
                     stats.updatePlayerStat(textJugador1.getText(),"lost",1);
                     stats.updatePlayerStat(textJugador2.getText(),"win",1);
                 }
                 break;
         }
-        Partida.restart();
+        partida.restart();
         btn_start.setDisable(false);
         btn_stop.setDisable(true);
         enableModes(true);

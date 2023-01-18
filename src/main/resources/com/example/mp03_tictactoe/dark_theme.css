@@ -9,19 +9,19 @@
 
 #btnTheme{
 -fx-background-size: 45px;
--fx-background-color: "#121212";
+-fx-background-color: "#1c1c1c";
 -fx-background-repeat: no-repeat;
 -fx-background-position: 85%;
--fx-border-color: "#121212";
+-fx-border-color: "#1c1c1c";
 -fx-padding: 0;
 }
 
 #btnStats{
 -fx-background-size: 45px;
--fx-background-color: "#121212";
+-fx-background-color: "#1c1c1c";
 -fx-background-repeat: no-repeat;
 -fx-background-position: 85%;
--fx-border-color: "#121212";
+-fx-border-color: "#1c1c1c";
 -fx-padding: 0;
 }
 
@@ -79,4 +79,9 @@
 .radio-button .dot {
     -fx-background-radius: 15px;
     -fx-padding: 8px;
+}
+
+.tool-bar {
+    -fx-background-color:"#1c1c1c";
+    -fx-text-fill:"#ffffff";
 }

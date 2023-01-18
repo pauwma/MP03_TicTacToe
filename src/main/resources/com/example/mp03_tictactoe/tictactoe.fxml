@@ -4,13 +4,14 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mp03_tictactoe.Controller">
+<AnchorPane prefHeight="500.0" prefWidth="774.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mp03_tictactoe.Controller">
    <children>
-      <AnchorPane fx:id="turnoBorder" layoutX="39.0" layoutY="99.0" prefHeight="340.0" prefWidth="340.0">
+      <AnchorPane fx:id="turnoBorder" layoutX="60.0" layoutY="105.0" prefHeight="340.0" prefWidth="340.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="110.0">
          <children>
             <AnchorPane fx:id="innerBorder" layoutX="9.0" layoutY="10.0" prefHeight="320.0" prefWidth="320.0">
                <children>
@@ -30,16 +31,15 @@
                </children></AnchorPane>
          </children>
       </AnchorPane>
-      <Button fx:id="btnTheme" contentDisplay="CENTER" layoutX="700.0" layoutY="32.0" mnemonicParsing="false" onAction="#changeTheme" prefHeight="30.0" prefWidth="30.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
-      <Button fx:id="btn_start" contentDisplay="CENTER" layoutX="470.0" layoutY="369.0" mnemonicParsing="false" onAction="#startGame" prefHeight="37.0" prefWidth="107.0" text="START">
+      <Button fx:id="btn_start" contentDisplay="CENTER" layoutX="473.0" layoutY="372.0" mnemonicParsing="false" onAction="#startGame" prefHeight="37.0" prefWidth="107.0" text="START" AnchorPane.bottomAnchor="90.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Button>
-      <Button fx:id="btn_stop" contentDisplay="CENTER" layoutX="600.0" layoutY="369.0" mnemonicParsing="false" onAction="#stopGame" prefHeight="37.0" prefWidth="107.0" text="STOP">
+      <Button fx:id="btn_stop" contentDisplay="CENTER" layoutX="603.0" layoutY="372.0" mnemonicParsing="false" onAction="#stopGame" prefHeight="37.0" prefWidth="107.0" text="STOP" AnchorPane.bottomAnchor="90.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Button>
-      <RadioButton fx:id="btn_gamemode0" layoutX="504.0" layoutY="236.0" mnemonicParsing="false" onAction="#gamemodeSelector" selected="true" text="Player VS Player">
+      <RadioButton fx:id="btn_gamemode0" layoutX="503.0" layoutY="250.0" mnemonicParsing="false" onAction="#gamemodeSelector" selected="true" text="Player VS Player">
          <toggleGroup>
             <ToggleGroup fx:id="gamemode" />
          </toggleGroup>
@@ -47,16 +47,21 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </RadioButton>
-      <RadioButton fx:id="btn_gamemode1" layoutX="504.0" layoutY="266.0" mnemonicParsing="false" onAction="#gamemodeSelector" text="Player VS Machine" toggleGroup="$gamemode">
+      <RadioButton fx:id="btn_gamemode1" layoutX="503.0" layoutY="280.0" mnemonicParsing="false" onAction="#gamemodeSelector" text="Player VS Machine" toggleGroup="$gamemode">
          <font>
             <Font name="System Bold" size="13.0" />
          </font></RadioButton>
-      <RadioButton fx:id="btn_gamemode2" layoutX="504.0" layoutY="296.0" mnemonicParsing="false" onAction="#gamemodeSelector" text="Machine VS Machine" toggleGroup="$gamemode">
+      <RadioButton fx:id="btn_gamemode2" layoutX="503.0" layoutY="310.0" mnemonicParsing="false" onAction="#gamemodeSelector" text="Machine VS Machine" toggleGroup="$gamemode">
          <font>
             <Font name="System Bold" size="13.0" />
          </font></RadioButton>
-      <TextField fx:id="textJugador2" alignment="CENTER" layoutX="505.0" layoutY="176.0" prefHeight="32.0" prefWidth="160.0" promptText="Jugador 2" style="-fx-border-color: #ec4b4b; -fx-border-width: 4;" />
-      <TextField fx:id="textJugador1" alignment="CENTER" layoutX="505.0" layoutY="130.0" prefHeight="32.0" prefWidth="160.0" promptText="Jugador 1" style="-fx-border-color: #3877ff; -fx-border-width: 4;" />
-      <Button fx:id="btnStats" contentDisplay="CENTER" layoutX="707.0" layoutY="20.0" mnemonicParsing="false" onAction="#showStats" prefHeight="30.0" prefWidth="30.0" />
+      <TextField fx:id="textJugador2" alignment="CENTER" layoutX="511.0" layoutY="188.0" prefHeight="32.0" prefWidth="160.0" promptText="Jugador 2" style="-fx-border-color: #ec4b4b; -fx-border-width: 4;" />
+      <TextField fx:id="textJugador1" alignment="CENTER" layoutX="511.0" layoutY="143.0" prefHeight="32.0" prefWidth="160.0" promptText="Jugador 1" style="-fx-border-color: #3877ff; -fx-border-width: 4;" />
+      <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="60.0" prefWidth="774.0">
+         <items>
+            <Button fx:id="btnTheme" contentDisplay="CENTER" mnemonicParsing="false" onAction="#changeTheme" prefHeight="30.0" prefWidth="30.0" />
+            <Button fx:id="btnStats" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showStats" prefHeight="30.0" prefWidth="30.0" />
+         </items>
+      </ToolBar>
    </children>
 </AnchorPane>
