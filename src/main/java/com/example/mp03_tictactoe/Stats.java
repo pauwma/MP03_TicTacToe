@@ -12,12 +12,17 @@ import javafx.stage.Stage;
 import java.util.Comparator;
 
 public class Stats {
+    private boolean tableOpened = false;
     private TableView<Jugador> table;
+    private Stage stage;
     private ObservableList<Jugador> data;
     private TableColumn<Jugador, String> nameCol;
     private TableColumn<Jugador, Integer> winCol;
     private TableColumn<Jugador, Integer> lostCol;
     private TableColumn<Jugador, Integer> drawCol;
+
+    private String whiteTheme = this.getClass().getResource("white_theme.css").toExternalForm();
+    private String darkTheme = this.getClass().getResource("dark_theme.css").toExternalForm();
 
     public Stats(){
         data = FXCollections.observableArrayList();
@@ -65,8 +70,13 @@ public class Stats {
     }
 
     // ? Crea un nuevo stage y una nueva tabla y introduce los datos de la lista de jugadores
-    public void showTable(){
-        Stage stage = new Stage();
+    public void showTable(boolean theme){
+        if(tableOpened){
+            stage.close();
+            tableOpened = false;
+        }
+        tableOpened = true;
+        stage = new Stage();
         table = new TableView<>();
         table.setItems(this.data);
 
@@ -102,7 +112,15 @@ public class Stats {
         table.setItems(data);
         table.getColumns().addAll(nameCol, winCol, lostCol, drawCol);
 
-        stage.setScene(new Scene(new VBox(table), 500, 400));
+        Scene scene = new Scene(new VBox(table), 502, 400);
+        if (theme){
+            scene.getStylesheets().remove(darkTheme);
+            scene.getStylesheets().add(whiteTheme);
+        } else {
+            scene.getStylesheets().remove(whiteTheme);
+            scene.getStylesheets().add(darkTheme);
+        }
+        stage.setScene(scene);
         stage.setTitle("Estadísticas de Jugadores");
         stage.setResizable(false);
         stage.show();

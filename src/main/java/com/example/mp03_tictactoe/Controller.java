@@ -70,6 +70,11 @@ public class Controller implements Initializable {
     Image darkIcon = new Image(this.getClass().getResource("dark_theme_icon.png").toExternalForm());
     ImageView darkView = new ImageView(darkIcon);
 
+    Image darkStats = new Image(this.getClass().getResource("stats_icon_dark.png").toExternalForm());
+    ImageView darkStatsView = new ImageView(darkStats);
+    Image whiteStats = new Image(this.getClass().getResource("stats_icon_white.png").toExternalForm());
+    ImageView whiteStatsView = new ImageView(whiteStats);
+
     private String colorJugador1 = "#3877ff";
     private String colorJugador2 = "#ec4b4b";
 
@@ -121,7 +126,7 @@ public class Controller implements Initializable {
                 Alerts.faltaNombres();
                 textJugador1.clear();
                 textJugador2.clear();
-            } else if (textJugador1.getText().toLowerCase().trim().equals(textJugador2.getText().trim().toLowerCase())) {
+            } else if (textJugador1.getText().trim().equals(textJugador2.getText().trim())) {
                 Alerts.nombresIguales();
             } else {
                 gameCorrecto = true;
@@ -348,11 +353,13 @@ public class Controller implements Initializable {
             btnTheme.getScene().getStylesheets().remove(darkTheme);
             btnTheme.getScene().getStylesheets().add(whiteTheme);
             btnTheme.setGraphic(darkView);
+            btnStats.setGraphic(whiteStatsView);
             theme = false;
         } else {
             btnTheme.getScene().getStylesheets().remove(whiteTheme);
             btnTheme.getScene().getStylesheets().add(darkTheme);
             btnTheme.setGraphic(whiteView);
+            btnStats.setGraphic(darkStatsView);
             theme = true;
         }
     }   // ? Método cambio de tema
@@ -401,12 +408,13 @@ public class Controller implements Initializable {
     }   // ? Hace los cambios visuales dependiendo del ganador
     @FXML
     public void showStats(ActionEvent event){
-        stats.showTable();
+        stats.showTable(theme);
     }   // ? Muestra la tabla de los stats
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // ? Pone la imagen del botón de cambio de tema.
         btnTheme.setGraphic(whiteView);
+        btnStats.setGraphic(darkStatsView);
         theme = true;
 
         btn_stop.setDisable(true); // ? Deshabilita el botón de stop
