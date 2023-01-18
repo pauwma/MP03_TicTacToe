@@ -123,6 +123,7 @@ public class Controller implements Initializable {
     @FXML
     public void startGame(ActionEvent event){
         boolean gameCorrecto = false;
+        partida.restart();
         btn_start = (Button) event.getSource(); // ? Obtiene el botón del evento
 
         if (partida.getMode() == 1){
@@ -222,10 +223,21 @@ public class Controller implements Initializable {
     }
     public void btnRandomGamemode3(){
         int randomBtn = (int) ((Math.random() * (9 - 0)) + 0);
-
+        if (partida.nTablero(randomBtn) == 0){
+            listBtn.get(randomBtn).setDisable(true);
+            partida.marcar(randomBtn);
+            cambiarTurnoBoton(randomBtn);
+            cambiarTurnoBorde();
+            partida.cambiarTurno();
+            partida.setnTurno(partida.getnTurno() + 1);
+            comprobarGanador();
+        } else btnRandomGamemode3();
     }
     public void machineVSmachine(){
-        // TODO Hacer
+        while (partida.getnTurno() !=9 && partida.comprobarGanador() == 0){
+            btnRandomGamemode3();
+            comprobarGanador();
+        }
     }
     private void cambiarTurnoBoton(int nBtn){
         switch (nBtn){
@@ -407,7 +419,7 @@ public class Controller implements Initializable {
                 }
                 break;
         }
-        partida.restart();
+        partida.setGanador(true);
         btn_start.setDisable(false);
         btn_stop.setDisable(true);
         enableModes(true);
